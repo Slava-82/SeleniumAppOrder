@@ -90,6 +90,22 @@ public class OrderTest {
     }
 
     @Test
+    void shouldTestNameЁ() {
+
+        //поиск элемента
+        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Семенов Пётр");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79991234567");
+        driver.findElement(By.cssSelector("[data-test-id='agreement']")).click();
+        driver.findElement(By.className("button")).click();
+
+        String text = driver.findElement(By.cssSelector("[data-test-id=order-success]")).getText();
+        assertEquals("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.", text.trim());
+        assertTrue(driver.findElement(By.className("icon")).isDisplayed());
+        assertTrue(driver.findElement(By.cssSelector("[data-test-id=order-success]")).isDisplayed());
+
+    }
+
+    @Test
     void shouldTestInvalidNameLatin() {
 
         //поиск элемента

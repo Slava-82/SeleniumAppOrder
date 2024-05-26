@@ -42,13 +42,11 @@ public class OrderTest {
     void shouldTestHappyPath() {
 
         //поиск элемента
-        List<WebElement> elements = driver.findElements(By.className("input__control"));
-        elements.get(0).sendKeys("Петров Егор");
-        elements.get(1).sendKeys("+79001234567");
+        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Петров Егор");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79991234567");
         driver.findElement(By.cssSelector("[data-test-id='agreement']")).click();
 
-        String textMainPage = driver.findElement(By.className("App_appContainer__3jRx1")).getText();
-
+        String textMainPage = driver.findElement(By.cssSelector("[id='root']")).getText();
         assertEquals("Заявка на дебетовую карту\n" +
                 "Альфа-Карта\n" +
                 "До 2% на все покупки\n" +
@@ -61,23 +59,23 @@ public class OrderTest {
                 "На указанный номер моб. тел. будет отправлен смс-код для подтверждения заявки на карту. Проверьте, что номер ваш и введен корректно.\n" +
                 "Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй\n" +
                 "Продолжить", textMainPage.trim());
+        assertTrue(driver.findElement(By.cssSelector("[id='root']")).isDisplayed());
 
         driver.findElement(By.className("button")).click();
-        String textSecondPage = driver.findElement(By.className("App_appContainer__3jRx1")).getText();
-        assertEquals("Заявка на дебетовую карту\n" +
-                "  Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.", textSecondPage);
+
         String text = driver.findElement(By.cssSelector("[data-test-id=order-success]")).getText();
         assertEquals("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.", text.trim());
         assertTrue(driver.findElement(By.className("icon")).isDisplayed());
         assertTrue(driver.findElement(By.cssSelector("[data-test-id=order-success]")).isDisplayed());
+        assertTrue(driver.findElement(By.cssSelector("[id='root']")).isDisplayed());
 
     }
 
     @Test
-    void shouldTestNameSpace() {
+    void shouldTestNameDash() {
 
         //поиск элемента
-        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Олег Семенов");
+        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Калинин-Малинин Эдуард ");
         driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79991234567");
         driver.findElement(By.cssSelector("[data-test-id='agreement']")).click();
         driver.findElement(By.className("button")).click();
@@ -114,7 +112,7 @@ public class OrderTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.className("button")).click();
 
-        String text = driver.findElement(By.cssSelector("[data-test-id='name'] .input__sub")).getText();
+        String text = driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText();
         assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", text.trim());
         assertTrue(driver.findElement(By.className("input__sub")).isDisplayed());
 
@@ -129,7 +127,7 @@ public class OrderTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.className("button")).click();
 
-        String text = driver.findElement(By.cssSelector("[data-test-id='name'] .input__sub")).getText();
+        String text = driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText();
         assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", text.trim());
         assertTrue(driver.findElement(By.className("input__sub")).isDisplayed());
 
@@ -144,7 +142,7 @@ public class OrderTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.className("button")).click();
 
-        String text = driver.findElement(By.cssSelector("[data-test-id='name'] .input__sub")).getText();
+        String text = driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText();
         assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", text.trim());
         assertTrue(driver.findElement(By.className("input__sub")).isDisplayed());
 
@@ -159,7 +157,7 @@ public class OrderTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.className("button")).click();
 
-        String text = driver.findElement(By.cssSelector("[data-test-id='name'] .input__sub")).getText();
+        String text = driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText();
         assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", text.trim());
         assertTrue(driver.findElement(By.className("input__sub")).isDisplayed());
 
@@ -174,7 +172,7 @@ public class OrderTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.className("button")).click();
 
-        String text = driver.findElement(By.cssSelector("[data-test-id='name'] .input__sub")).getText();
+        String text = driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText();
         assertEquals("Поле обязательно для заполнения", text.trim());
         assertTrue(driver.findElement(By.className("input__sub")).isDisplayed());
 
@@ -189,7 +187,7 @@ public class OrderTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.className("button")).click();
 
-        String text = driver.findElement(By.cssSelector("[data-test-id='phone'] .input__sub")).getText();
+        String text = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", text.trim());
         assertTrue(driver.findElement(By.className("input__sub")).isDisplayed());
 
@@ -204,7 +202,7 @@ public class OrderTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.className("button")).click();
 
-        String text = driver.findElement(By.cssSelector("[data-test-id='phone'] .input__sub")).getText();
+        String text = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", text.trim());
         assertTrue(driver.findElement(By.className("input__sub")).isDisplayed());
 
@@ -219,7 +217,7 @@ public class OrderTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.className("button")).click();
 
-        String text = driver.findElement(By.cssSelector("[data-test-id='phone'] .input__sub")).getText();
+        String text = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", text.trim());
         assertTrue(driver.findElement(By.className("input__sub")).isDisplayed());
 
@@ -234,7 +232,7 @@ public class OrderTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.className("button")).click();
 
-        String text = driver.findElement(By.cssSelector("[data-test-id='phone'] .input__sub")).getText();
+        String text = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", text.trim());
         assertTrue(driver.findElement(By.className("input__sub")).isDisplayed());
 
@@ -249,7 +247,7 @@ public class OrderTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.className("button")).click();
 
-        String text = driver.findElement(By.cssSelector("[data-test-id='phone'] .input__sub")).getText();
+        String text = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", text.trim());
         assertTrue(driver.findElement(By.className("input__sub")).isDisplayed());
 
@@ -264,7 +262,7 @@ public class OrderTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.className("button")).click();
 
-        String text = driver.findElement(By.cssSelector("[data-test-id='phone'] .input__sub")).getText();
+        String text = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", text.trim());
         assertTrue(driver.findElement(By.className("input__sub")).isDisplayed());
 
@@ -279,7 +277,7 @@ public class OrderTest {
         driver.findElement(By.className("checkbox__box")).click();
         driver.findElement(By.className("button")).click();
 
-        String text = driver.findElement(By.cssSelector("[data-test-id='phone'] .input__sub")).getText();
+        String text = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
         assertEquals("Поле обязательно для заполнения", text.trim());
         assertTrue(driver.findElement(By.className("input__sub")).isDisplayed());
 
